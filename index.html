@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Workout App</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div class="container">
+    <!-- Tab 1: Сегодня -->
+    <div id="tab-today" class="tab-content active">
+      <h1 class="mb-4">💪 Сегодня</h1>
+      <div id="today-loader" class="loader"></div>
+      <div id="today-error" class="error-message"></div>
+      <div id="today-content" class="hidden">
+        <div class="card">
+          <div id="today-workout-name" class="card-title"></div>
+          <div id="today-workout-type" class="card-subtitle"></div>
+        </div>
+        <div id="today-exercises"></div>
+        <div id="today-rest-message" class="hidden text-center mt-4">
+          <p>Сегодня день отдыха. Восстанавливайтесь!</p>
+        </div>
+        <div id="today-form-container" class="hidden">
+          <textarea id="today-note" placeholder="Заметки к тренировке..." rows="3"></textarea>
+          <button id="save-workout-btn">Сохранить тренировку</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: История -->
+    <div id="tab-history" class="tab-content">
+      <h1 class="mb-4">📅 История</h1>
+      <input type="date" id="history-date">
+      <div id="history-loader" class="loader hidden"></div>
+      <div id="history-error" class="error-message"></div>
+      <div id="history-content">
+        <div id="history-empty" class="text-center mt-4 hidden">Нет данных за этот день</div>
+        <div id="history-data" class="hidden">
+          <div class="card">
+            <div id="history-workout-type" class="card-title"></div>
+          </div>
+          <div id="history-exercises"></div>
+          <div class="card">
+            <div class="card-title">Заметка</div>
+            <div id="history-note"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Прогресс -->
+    <div id="tab-progress" class="tab-content">
+      <h1 class="mb-4">📈 Прогресс</h1>
+      <button id="run-progression-btn" class="mb-4">Пересчитать прогрессию</button>
+      <div id="progress-loader" class="loader hidden"></div>
+      <div id="progress-error" class="error-message"></div>
+      <div id="progress-content" class="hidden">
+        <div class="card">
+          <div class="card-title">Изменения</div>
+          <div id="progress-changed"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Пропущены</div>
+          <div id="progress-skipped"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Программа -->
+    <div id="tab-program" class="tab-content">
+      <h1 class="mb-4">📋 Программа</h1>
+      <div id="program-loader" class="loader"></div>
+      <div id="program-error" class="error-message"></div>
+      <div id="program-content" class="hidden">
+        <div class="card mb-4">
+          <div class="card-title">Расписание</div>
+          <div id="program-schedule"></div>
+        </div>
+        <h2 class="mb-4">Тренировки</h2>
+        <div id="program-workouts"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-tab="today">
+      <div class="nav-icon">💪</div>
+      <span>Сегодня</span>
+    </div>
+    <div class="nav-item" data-tab="history">
+      <div class="nav-icon">📅</div>
+      <span>История</span>
+    </div>
+    <div class="nav-item" data-tab="progress">
+      <div class="nav-icon">📈</div>
+      <span>Прогресс</span>
+    </div>
+    <div class="nav-item" data-tab="program">
+      <div class="nav-icon">📋</div>
+      <span>Программа</span>
+    </div>
+  </nav>
+
+  <script type="module" src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
