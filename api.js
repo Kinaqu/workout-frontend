@@ -24,19 +24,15 @@ async function request(endpoint, options = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const config = {
-    ...options,
-    headers,
-  };
+  const config = { ...options, headers };
 
   try {
     const response = await fetch(url, config);
     if (response.status === 401) {
       removeToken();
-      window.location.href = '/login.html';
+      window.location.href = '/login';
       return null;
     }
-    
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
       throw new Error(data.message || data.error || `API Error: ${response.status}`);
@@ -62,9 +58,7 @@ export const api = {
   getTodayWorkout: () => request('/workout/today'),
   logWorkout: (data, date) => {
     const headers = {};
-    if (date) {
-      headers['X-Workout-Date'] = date;
-    }
+    if (date) headers['X-Workout-Date'] = date;
     return request('/log', {
       method: 'POST',
       body: JSON.stringify(data),

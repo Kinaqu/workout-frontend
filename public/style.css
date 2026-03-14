@@ -244,3 +244,30 @@ input:focus, textarea:focus {
 }
 .direction-up { color: var(--success-color); }
 .direction-down { color: var(--error-color); }
+
+
+/* Textarea — no resize, scroll inside */
+#today-note {
+  resize: none;
+  overflow-y: auto;
+  height: 100px;
+}
+
+/* Remove number input arrows */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+
+}
+
+/* History date — full width, no overflow */
+#history-date {
+  width: 100%;
+  max-width: 100%;
+}

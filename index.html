@@ -9,6 +9,7 @@
 </head>
 <body>
   <div class="container">
+    <!-- Tab 1: Today -->
     <div id="tab-today" class="tab-content active">
       <h1 class="mb-4">💪 Today</h1>
       <div id="today-loader" class="loader"></div>
@@ -20,83 +21,65 @@
         </div>
         <div id="today-exercises"></div>
         <div id="today-rest-message" class="hidden text-center mt-4">
-          <p>Today is a rest day. Recover!</p>
+          <p>Сегодня день отдыха. Восстанавливайтесь!</p>
         </div>
         <div id="today-form-container" class="hidden">
-          <textarea id="today-note" placeholder="Notes for your workout..." rows="3"></textarea>
-          <button id="save-workout-btn">Save Workout</button>
+          <textarea id="today-note" placeholder="Заметки к тренировке..."></textarea>
+          <button id="save-workout-btn">Сохранить тренировку</button>
         </div>
       </div>
     </div>
 
+    <!-- Tab 2: History -->
     <div id="tab-history" class="tab-content">
-      <h1 class="mb-4">📅 History</h1>
+      <h1 class="mb-4">📅 История</h1>
       <input type="date" id="history-date">
       <div id="history-loader" class="loader hidden"></div>
       <div id="history-error" class="error-message"></div>
       <div id="history-content">
-        <div id="history-empty" class="text-center mt-4 hidden">No data for this day</div>
+        <div id="history-empty" class="text-center mt-4 hidden">Нет данных за этот день</div>
         <div id="history-data" class="hidden">
           <div class="card">
             <div id="history-workout-type" class="card-title"></div>
           </div>
           <div id="history-exercises"></div>
           <div class="card">
-            <div class="card-title">Note</div>
+            <div class="card-title">Заметка</div>
             <div id="history-note"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div id="tab-progress" class="tab-content">
-      <h1 class="mb-4">📈 Progress</h1>
-      <button id="run-progression-btn" class="mb-4">Recalculate Progression</button>
-      <div id="progress-loader" class="loader hidden"></div>
-      <div id="progress-error" class="error-message"></div>
-      <div id="progress-content" class="hidden">
-        <div class="card">
-          <div class="card-title">Changes</div>
-          <div id="progress-changed"></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Skipped</div>
-          <div id="progress-skipped"></div>
-        </div>
-      </div>
-    </div>
-
+    <!-- Tab 3: Program -->
     <div id="tab-program" class="tab-content">
-      <h1 class="mb-4">📋 Program</h1>
+      <h1 class="mb-4">📋 Программа</h1>
       <div id="program-loader" class="loader"></div>
       <div id="program-error" class="error-message"></div>
       <div id="program-content" class="hidden">
         <div class="card mb-4">
-          <div class="card-title">Schedule</div>
+          <div class="card-title">Расписание</div>
           <div id="program-schedule"></div>
         </div>
-        <h2 class="mb-4">Workouts</h2>
+        <h2 class="mb-4">Тренировки</h2>
         <div id="program-workouts"></div>
       </div>
     </div>
   </div>
 
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <div class="nav-item active" data-tab="today">
       <div class="nav-icon">💪</div>
-      <span>Today</span>
+      <span>Сегодня</span>
     </div>
     <div class="nav-item" data-tab="history">
       <div class="nav-icon">📅</div>
-      <span>History</span>
-    </div>
-    <div class="nav-item" data-tab="progress">
-      <div class="nav-icon">📈</div>
-      <span>Progress</span>
+      <span>История</span>
     </div>
     <div class="nav-item" data-tab="program">
       <div class="nav-icon">📋</div>
-      <span>Program</span>
+      <span>Программа</span>
     </div>
   </nav>
 
