@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Вход - Workout App</title>
+  <title>Login - Workout App</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <div class="auth-container">
-    <h1>Вход</h1>
+    <h1>Login</h1>
     <div id="error-msg" class="error-message"></div>
     <form id="login-form">
-      <input type="text" id="username" placeholder="Имя пользователя" required autocomplete="username">
-      <input type="password" id="password" placeholder="Пароль" required autocomplete="current-password">
-      <button type="submit" id="submit-btn">Войти</button>
+      <input type="text" id="username" placeholder="Username" required autocomplete="username">
+      <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+      <button type="submit" id="submit-btn">Login</button>
     </form>
     <div class="auth-links">
-      <p>Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+      <p>Don't have an account? <a href="register.html">Sign up</a></p>
     </div>
   </div>
   <script type="module">
@@ -36,7 +36,7 @@
 
       errorMsg.textContent = '';
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Вход...';
+      submitBtn.textContent = 'Logging in...';
 
       try {
         const res = await api.login(usernameInput, passwordInput);
@@ -44,13 +44,13 @@
           setToken(res.token);
           window.location.href = 'index.html';
         } else {
-          errorMsg.textContent = 'Неизвестная ошибка';
+          errorMsg.textContent = 'Unknown error';
         }
       } catch (err) {
-        errorMsg.textContent = err.message || 'Ошибка входа';
+        errorMsg.textContent = err.message || 'Login error';
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Войти';
+        submitBtn.textContent = 'Login';
       }
     });
   </script>

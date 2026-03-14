@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Регистрация - Workout App</title>
+  <title>Sign Up - Workout App</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <div class="auth-container">
-    <h1>Регистрация</h1>
+    <h1>Sign Up</h1>
     <div id="error-msg" class="error-message"></div>
     <form id="register-form">
-      <input type="text" id="username" placeholder="Имя пользователя" required autocomplete="username">
-      <input type="password" id="password" placeholder="Пароль" required autocomplete="new-password">
-      <button type="submit" id="submit-btn">Зарегистрироваться</button>
+      <input type="text" id="username" placeholder="Username" required autocomplete="username">
+      <input type="password" id="password" placeholder="Password" required autocomplete="new-password">
+      <button type="submit" id="submit-btn">Sign Up</button>
     </form>
     <div class="auth-links">
-      <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
+      <p>Already have an account? <a href="login.html">Log in</a></p>
     </div>
   </div>
   <script type="module">
@@ -36,7 +36,7 @@
 
       errorMsg.textContent = '';
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Регистрация...';
+      submitBtn.textContent = 'Signing up...';
 
       try {
         const res = await api.register(usernameInput, passwordInput);
@@ -44,13 +44,13 @@
           setToken(res.token);
           window.location.href = 'index.html';
         } else {
-          errorMsg.textContent = 'Неизвестная ошибка';
+          errorMsg.textContent = 'Unknown error';
         }
       } catch (err) {
-        errorMsg.textContent = err.message || 'Ошибка регистрации';
+        errorMsg.textContent = err.message || 'Sign up error';
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Зарегистрироваться';
+        submitBtn.textContent = 'Sign Up';
       }
     });
   </script>
