@@ -17,14 +17,14 @@
       <button type="submit" id="submit-btn">Sign Up</button>
     </form>
     <div class="auth-links">
-      <p>Already have an account? <a href="login.html">Log in</a></p>
+      <p>Already have an account? <a href="/login">Log in</a></p>
     </div>
   </div>
   <script type="module">
-    import { api, getToken, setToken } from './api.js';
+    import { api, getToken, setToken } from '/api.js';
 
     if (getToken()) {
-      window.location.href = 'index.html';
+      window.location.href = '/';
     }
 
     document.getElementById('register-form').addEventListener('submit', async (e) => {
@@ -42,7 +42,7 @@
         const res = await api.register(usernameInput, passwordInput);
         if (res && res.token) {
           setToken(res.token);
-          window.location.href = 'index.html';
+          window.location.href = '/';
         } else {
           errorMsg.textContent = 'Unknown error';
         }

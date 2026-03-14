@@ -9,7 +9,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Tab 1: Today -->
     <div id="tab-today" class="tab-content active">
       <h1 class="mb-4">💪 Today</h1>
       <div id="today-loader" class="loader"></div>
@@ -30,7 +29,6 @@
       </div>
     </div>
 
-    <!-- Tab 2: History -->
     <div id="tab-history" class="tab-content">
       <h1 class="mb-4">📅 History</h1>
       <input type="date" id="history-date">
@@ -51,7 +49,6 @@
       </div>
     </div>
 
-    <!-- Tab 3: Progress -->
     <div id="tab-progress" class="tab-content">
       <h1 class="mb-4">📈 Progress</h1>
       <button id="run-progression-btn" class="mb-4">Recalculate Progression</button>
@@ -69,7 +66,6 @@
       </div>
     </div>
 
-    <!-- Tab 4: Program -->
     <div id="tab-program" class="tab-content">
       <h1 class="mb-4">📋 Program</h1>
       <div id="program-loader" class="loader"></div>
@@ -85,7 +81,6 @@
     </div>
   </div>
 
-  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <div class="nav-item active" data-tab="today">
       <div class="nav-icon">💪</div>
@@ -105,7 +100,7 @@
     </div>
   </nav>
 
-  <script type="module" src="app.js"></script>
+  <script type="module" src="/app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
