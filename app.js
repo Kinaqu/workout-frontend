@@ -4,7 +4,6 @@ if (!getToken()) {
   window.location.href = '/login';
 }
 
-let todayWorkoutData = null;
 let todayWorkoutType = null;
 
 const tabs = document.querySelectorAll('.tab-content');
@@ -50,11 +49,10 @@ async function loadToday() {
     loader.classList.add('hidden');
     content.classList.remove('hidden');
 
-    todayWorkoutData = data;
     todayWorkoutType = data.type;
 
-    document.getElementById('today-workout-name').textContent = data.name || 'Тренировка';
-    document.getElementById('today-workout-type').textContent = `Тип: ${data.type}`;
+    document.getElementById('today-workout-name').textContent = data.name || 'Workout';
+    document.getElementById('today-workout-type').textContent = `Type: ${data.type}`;
 
     const exercisesContainer = document.getElementById('today-exercises');
     const restMessage = document.getElementById('today-rest-message');
@@ -70,7 +68,7 @@ async function loadToday() {
     formContainer.classList.remove('hidden');
 
     if (!data.exercises || data.exercises.length === 0) {
-      exercisesContainer.innerHTML = '<div class="text-center text-secondary">Нет упражнений</div>';
+      exercisesContainer.innerHTML = '<div class="text-center text-secondary">No exercises</div>';
       return;
     }
 
@@ -81,36 +79,33 @@ async function loadToday() {
       card.appendChild(el('div', 'card-title', ex.name || ex.id));
 
       let targetText = '';
-      if (ex.type === 'reps' && ex.reps) targetText = `Цель: ${ex.reps.min}–${ex.reps.max} повт.`;
-      else if (ex.type === 'time' && ex.duration) targetText = `Цель: ${ex.duration.min}–${ex.duration.max} сек`;
-      else if (ex.type === 'cycles' && ex.cycles) targetText = `Цель: ${ex.cycles.min}–${ex.cycles.max} циклов`;
+      if (ex.type === 'reps' && ex.reps) targetText = `Goal: ${ex.reps.max} reps × ${ex.sets} sets`;
+      else if (ex.type === 'time' && ex.duration) targetText = `Goal: ${ex.duration.max} sec × ${ex.sets} sets`;
+      else if (ex.type === 'cycles' && ex.cycles) targetText = `Goal: ${ex.cycles.max} cycles × ${ex.sets} sets`;
       card.appendChild(el('div', 'card-subtitle', targetText));
 
       const setsContainer = el('div', 'sets-container');
-      const setsCount = ex.sets || 1;
-
-      for (let i = 0; i < setsCount; i++) {
+      for (let i = 0; i < (ex.sets || 1); i++) {
         setsContainer.appendChild(createSetRow(i + 1, ex.type));
       }
-
       card.appendChild(setsContainer);
       exercisesContainer.appendChild(card);
     });
 
   } catch (err) {
     loader.classList.add('hidden');
-    errorEl.textContent = 'Ошибка загрузки тренировки: ' + err.message;
+    errorEl.textContent = 'Error loading workout: ' + err.message;
   }
 }
 
 function createSetRow(index, type) {
   const row = el('div', 'set-row');
-  row.appendChild(el('div', 'set-label', `Подход ${index}`));
+  row.appendChild(el('div', 'set-label', `Set ${index}`));
 
   const input = el('input', 'set-input');
   input.type = 'number';
   input.min = '0';
-  input.placeholder = type === 'time' ? 'Сек' : 'Повт';
+  input.placeholder = type === 'time' ? 'Sec' : 'Reps';
   row.appendChild(input);
 
   return row;
@@ -119,7 +114,7 @@ function createSetRow(index, type) {
 document.getElementById('save-workout-btn').addEventListener('click', async () => {
   const btn = document.getElementById('save-workout-btn');
   btn.disabled = true;
-  btn.textContent = 'Сохранение...';
+  btn.textContent = 'Saving...';
 
   try {
     const exercises = [];
@@ -132,17 +127,17 @@ document.getElementById('save-workout-btn').addEventListener('click', async () =
 
     const note = document.getElementById('today-note').value;
     await api.logWorkout({ workout_type: todayWorkoutType, exercises, note });
-    alert('Тренировка сохранена!');
+    alert('Workout saved!');
 
     const historyDate = document.getElementById('history-date').value;
     const today = new Date().toISOString().split('T')[0];
     if (historyDate === today) loadHistory(today);
 
   } catch (err) {
-    alert('Ошибка сохранения: ' + err.message);
+    alert('Save error: ' + err.message);
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Сохранить тренировку';
+    btn.textContent = 'Save Workout';
   }
 });
 
@@ -174,7 +169,7 @@ async function loadHistory(date) {
     }
 
     content.classList.remove('hidden');
-    document.getElementById('history-workout-type').textContent = `Тренировка: ${data.workout_type}`;
+    document.getElementById('history-workout-type').textContent = `Workout: ${data.workout_type}`;
 
     const exercisesContainer = document.getElementById('history-exercises');
     exercisesContainer.innerHTML = '';
@@ -183,23 +178,22 @@ async function loadHistory(date) {
       data.exercises.forEach(ex => {
         const card = el('div', 'card');
         card.appendChild(el('div', 'card-title', ex.id));
-        const setsText = ex.sets.map((s, i) => `Подход ${i + 1}: ${s}`).join(', ');
+        const setsText = ex.sets.map((s, i) => `Set ${i + 1}: ${s}`).join(', ');
         card.appendChild(el('div', '', setsText));
         exercisesContainer.appendChild(card);
       });
     } else {
-      exercisesContainer.innerHTML = '<div class="card">Нет упражнений</div>';
+      exercisesContainer.innerHTML = '<div class="card">No exercises</div>';
     }
 
-    document.getElementById('history-note').textContent = data.note || 'Нет заметок';
+    document.getElementById('history-note').textContent = data.note || 'No notes';
 
   } catch (err) {
     loader.classList.add('hidden');
-    // 404 = нет данных за этот день, не ошибка
     if (err.message.includes('404') || err.message.toLowerCase().includes('not found') || err.message.toLowerCase().includes('no log')) {
       empty.classList.remove('hidden');
     } else {
-      errorEl.textContent = 'Ошибка загрузки истории: ' + err.message;
+      errorEl.textContent = 'Error loading history: ' + err.message;
     }
   }
 }
@@ -217,13 +211,15 @@ async function loadProgram() {
     loader.classList.add('hidden');
     content.classList.remove('hidden');
 
+    const userSets = data.userSets ?? {};
+
     // Schedule
     const scheduleContainer = document.getElementById('program-schedule');
     scheduleContainer.innerHTML = '';
     if (data.schedule) {
       const days = [
-        ['monday', 'Пн'], ['tuesday', 'Вт'], ['wednesday', 'Ср'],
-        ['thursday', 'Чт'], ['friday', 'Пт'], ['saturday', 'Сб'], ['sunday', 'Вс']
+        ['monday', 'Mon'], ['tuesday', 'Tue'], ['wednesday', 'Wed'],
+        ['thursday', 'Thu'], ['friday', 'Fri'], ['saturday', 'Sat'], ['sunday', 'Sun']
       ];
       days.forEach(([key, label]) => {
         const row = el('div', 'flex justify-between mb-2 border-b pb-1');
@@ -247,16 +243,19 @@ async function loadProgram() {
             const li = el('li', 'mb-2 text-sm');
 
             let target = '';
-            if (ex.type === 'reps' && ex.reps) target = `${ex.reps.min}–${ex.reps.max} повт.`;
-            else if (ex.type === 'time' && ex.duration) target = `${ex.duration.min}–${ex.duration.max} сек`;
-            else if (ex.type === 'cycles' && ex.cycles) target = `${ex.cycles.min}–${ex.cycles.max} циклов`;
+            if (ex.type === 'reps' && ex.reps) target = `${ex.reps.max} reps`;
+            else if (ex.type === 'time' && ex.duration) target = `${ex.duration.max} sec`;
+            else if (ex.type === 'cycles' && ex.cycles) target = `${ex.cycles.max} cycles`;
 
-            li.textContent = `${ex.name || ex.id} — ${ex.max_sets} подх. × ${target}`;
+            const currentSets = userSets[ex.id] ?? 1;
+            const setsDisplay = `${currentSets}/${ex.max_sets} sets`;
+
+            li.textContent = `${ex.name || ex.id} — ${setsDisplay} × ${target}`;
             ul.appendChild(li);
           });
           card.appendChild(ul);
         } else {
-          card.appendChild(el('div', 'text-secondary', 'Нет упражнений'));
+          card.appendChild(el('div', 'text-secondary', 'No exercises'));
         }
         workoutsContainer.appendChild(card);
       });
@@ -264,7 +263,7 @@ async function loadProgram() {
 
   } catch (err) {
     loader.classList.add('hidden');
-    errorEl.textContent = 'Ошибка загрузки программы: ' + err.message;
+    errorEl.textContent = 'Error loading program: ' + err.message;
   }
 }
 
